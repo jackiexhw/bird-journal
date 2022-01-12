@@ -9,7 +9,7 @@ ENV = 'dev'
 if ENV == 'dev':
     #development database
     app.debug = True
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:dancingB1rB91@localhost/bird-journal'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:PASSWORD@localhost/bird-journal'
 else:
     #production database
     app.debug = False
