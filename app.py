@@ -37,8 +37,6 @@ class Entries(db.Model):
         self.notes = notes
         #self.image = image
 
-
-
 # create route for home page, decorator
 @app.route('/')
 def index():
@@ -59,7 +57,7 @@ def submit():
         # print(species, loc, date, time, notes)
         if species == '' or loc == '' or date is None or time is None:
             return render_template('index.html', message="Incomplete form, please fill out all required fields.")
-        data = Entries(species, locl date, time, note, image)
+        data = Entries(species, loc, date, time, notes, image)
         db.session.add(data)
         db.session.commit()
         return render_template('success.html')
