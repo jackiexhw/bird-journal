@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie-edge">
+        <link rel="stylesheet" href="../static/style.css"
+    </head>
+    <body>
+        <div class="container">
+            <h1 style="font-size:5vw">Register</h1>
+            <p>Enter a username and password to create an account</p>
+        </div>
+        
+        <div class="container">
+            <form action="/register/" method="POST">
+                <div class="form-group">
+                    <h3>Username</h3>
+                    <input
+                        type="text"
+                        name="username"
+                    />
+                </div>
+                <div class="form-group">
+                    <h3>Password</h3>
+                    <input
+                        type="text"
+                        name="password"
+                    />
+                </div>
+                <input type="submit" value="Register" class="btn" />
+            </form>
+        </div>
+    </body>
+</html>
