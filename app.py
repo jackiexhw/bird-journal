@@ -69,10 +69,16 @@ class Entries(db.Model):
 @app.route('/')
 def index():
     return render_template('login.html')
-    # return render_template('register.html')
+    return render_template('register.html')
+
+@app.route('/success/', methods=['POST'])
+def success():
+    if request.method == 'POST':
+        if request.form['success'] == "Back to Form":
+            return render_template('index.html')
     
 # submitting to /submit, array of allowed methods
-@app.route('/submit', methods=['POST'])
+@app.route('/submit/', methods=['POST'])
 def submit():
     #make sure it's post request
     if request.method == 'POST':

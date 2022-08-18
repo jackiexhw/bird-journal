@@ -7,7 +7,18 @@
         <link rel="stylesheet" href="../static/style.css">
     </head>
     <body>
-        <h1>Success!</h1>
-        <p> Click <a href="index">here</a> to return to the form</p>
+        <div class="container">
+            <h1>Success!</h1>
+
+            <p> Entry successfully logged. Click the button below to return to the form and submit another entry
+                 or exit this tab
+            </p>
+            <form action='/success/' method = 'POST'>
+                <input name="success" type="submit" value="Back to Form" class="btn" />
+            </form>
+
+            
+        </div>
+        
     </body>
 </html>
