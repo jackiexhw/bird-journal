@@ -25,7 +25,7 @@ else:
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 #create database
 db = SQLAlchemy(app)
-
+curr_user = None
 
 class Users(db.Model):
     __tablename__ = 'users'
@@ -40,7 +40,6 @@ class Users(db.Model):
         self.username = username
         self.password = password
         self.creation_date = creation_date
-        # self.children = children
 
 
 class Entries(db.Model):
@@ -54,13 +53,14 @@ class Entries(db.Model):
     # image = db.Column()
     user_id = db.Column(db.Integer, db.ForeignKey('users.id')) 
 
-    def __init__(self, species, loc, date, time, notes=None, image=None):
+    def __init__(self, species, loc, date, time, notes=None, image=None, user_id=None):
         self.species = species
         self.loc = loc
         self.date = date
         self.time = time
         self.notes = notes
         #self.image = image
+        self.user_id = user_id
 
 # db.create_all()
 # db.session.commit()
@@ -69,7 +69,6 @@ class Entries(db.Model):
 @app.route('/')
 def index():
     return render_template('login.html')
-    return render_template('register.html')
 
 @app.route('/success/', methods=['POST'])
 def success():
@@ -92,7 +91,8 @@ def submit():
         # print(species, loc, date, time, notes)
         if species == '' or loc == '' or date is None or time is None:
             return render_template('index.html', message="Incomplete form, please fill out all required fields.")
-        data = Entries(species, loc, date, time, notes, image)
+        print(curr_user)
+        data = Entries(species, loc, date, time, notes, image, curr_user)
         db.session.add(data)
         db.session.commit()
         return render_template('success.html')
@@ -118,6 +118,8 @@ def login():
                     hashed_pw = user[2]
                     if check_password_hash(hashed_pw, pswd):
                         # flash("Login successful")
+                        global curr_user
+                        curr_user = user[0]
                         return render_template('index.html')
                     else:
                         return render_template('login.html', message="Username or password incorrect.")
@@ -132,13 +134,12 @@ def register():
         if usr == '' or pswd == '':
             return render_template('register.html', message="Please enter a username and password.")
         else:
-            # TODO: check if username already taken
             db_users = db.engine.execute("SELECT * FROM users WHERE username='%s'" % usr)
             for _ in db_users:
                 flash('Username already taken, please try a different username.', 'error')
                 return render_template('register.html')#, message='Username already taken, please try a different username.')
             pswd = generate_password_hash(pswd, method='sha256')
-            user = Users(usr, pswd)#, creation_date)
+            user = Users(usr, pswd)
             db.session.add(user)
             db.session.commit()
             return render_template('index.html')
