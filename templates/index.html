@@ -6,6 +6,17 @@
         <meta http-equiv="X-UA-Compatible" content="ie-edge">
         <link rel="stylesheet" href="../static/style.css"
     </head>
+
+    <div class="container">
+        {% with messages = get_flashed_messages() %}
+            <ul class="message">
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endwith %}
+    </div>
+
     <body>
         <div class="container">
             <h1 style="font-size:5vw">Bird Journal</h1>
@@ -17,7 +28,7 @@
             <!-- <img src="../static/DSCN2536.JPG" alt="bird" class="logo"> -->
             <!--check if message exists (for incomplete form)-->
             {% if message %}
-                <p class="message">{{ message | safe}}</p>
+                <ul>{{ message | safe}}</ul>
             {% endif %}
             <form action="/submit/" method="POST">
                 <div class="form-group">
@@ -62,6 +73,7 @@
                 </div>
                 <div class="form-group">
                     <h3>Photo</h3>
+                    <p>(currently not supported so photos will not be saved)</p>
                     <input
                         type="file"
                         name="image"

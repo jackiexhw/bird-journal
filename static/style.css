@@ -31,11 +31,12 @@ img {
 	width: 30vw;
 }
 
-.message {
-	text-align: center;
-	padding: 5px;
-	border: #ccc dotted 2px;
-	margin-top: 2rem;
+ul {
+    list-style-type: none;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+    text-align: center;
+    background-color: rgb(255, 229, 229);
 }
 
 .logo {

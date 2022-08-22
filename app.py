@@ -107,7 +107,8 @@ def login():
             usr = request.form['username']
             pswd = request.form['password']
             if usr == '' or pswd == '':
-                return render_template('login.html', message="Please enter a username and password.")
+                flash('Please enter both a username and a password.')
+                return render_template('login.html')
             else:
                 db_users = db.engine.execute("SELECT * FROM users WHERE username='%s'" % usr)
                 # if not db_users.all():
@@ -117,14 +118,14 @@ def login():
                 for user in db_users:
                     hashed_pw = user[2]
                     if check_password_hash(hashed_pw, pswd):
-                        # flash("Login successful")
                         global curr_user
                         curr_user = user[0]
                         return render_template('index.html')
                     else:
-                        return render_template('login.html', message="Username or password incorrect.")
-    #TODO: message not displaying
-    return render_template('login.html', message="Username or password incorrect.")
+                        flash('Username or password incorrect.')
+                        return render_template('login.html')
+    flash('Username or password incorrect.')
+    return render_template('login.html')
 
 @app.route('/register/', methods=['POST'])
 def register():
@@ -132,12 +133,13 @@ def register():
         usr = request.form['username']
         pswd = request.form['password']
         if usr == '' or pswd == '':
-            return render_template('register.html', message="Please enter a username and password.")
+            flash('Please enter both a username and a password.')
+            return render_template('register.html')
         else:
             db_users = db.engine.execute("SELECT * FROM users WHERE username='%s'" % usr)
             for _ in db_users:
                 flash('Username already taken, please try a different username.', 'error')
-                return render_template('register.html')#, message='Username already taken, please try a different username.')
+                return render_template('register.html')
             pswd = generate_password_hash(pswd, method='sha256')
             user = Users(usr, pswd)
             db.session.add(user)
